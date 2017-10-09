@@ -42,6 +42,7 @@ class Plot_utils:
         self.path_list_y = []
         self.path_key_list = []
 
+    # just a wrapper around the gen_plot method
     def ubs_plotter(self, path=None, algorithm=None):
 
         # Argument:
@@ -87,7 +88,8 @@ class Plot_utils:
         if algorithm == 'bfs' or algorithm == 'dfs':
 
             # plot a scatter diagram of all the nodes in the graph
-            plt.scatter([self.x_list[x] for x in range(len(self.x_list))], [self.y_list[y] for y in range(len(self.y_list))],
+            plt.scatter([self.x_list[x] for x in range(len(self.x_list))],
+                        [self.y_list[y] for y in range(len(self.y_list))],
                         marker='o', cmap=plt.get_cmap('Spectral'))
 
             # indicate respective labels on each node

@@ -78,20 +78,37 @@ class BinaryTree:
 
     # perform depth first search
     def dfs (self, searchKey):
-        s = Stacks()
-        s.push(self.root)
+        frontier = Stacks()
+        frontier.push(self.root)
         path =[]
-        while s.isEmpty() == False:
-            u = s.pop()
+        while not frontier.isEmpty():
+            u = frontier.pop()
             path.append(u.getKey())
             if u.getKey() != searchKey:
-               if u.hasRight():
-                   s.push(u.getRight())
-               if u.hasLeft():
-                   s.push(u.getLeft())
+                if u.hasRight():
+                   frontier.push(u.getRight())
+                if u.hasLeft():
+                   frontier.push(u.getLeft())
 
             else:
                 return path
+        return None
+
+    # perform breadth first search
+    def bfs(self, searchKey):
+        frontier = Queues()
+        frontier.enqueue(self.root)
+        path = []
+        while not frontier.isEmpty():
+            u = frontier.dequeue()
+            path.append(u.getKey())
+            if u.getKey() == searchKey:
+                return path
+            else:
+                if u.hasLeft():
+                    frontier.enqueue(u.getLeft())
+                if u.hasRight():
+                    frontier.enqueue(u.getRight())
         return None
 
     # calculate the distance to find the minimized  cost
@@ -103,31 +120,14 @@ class BinaryTree:
         f_n = np.sqrt(np.square(x_all) + np.square(y_all))
         return f_n
 
-    # perform breadth first search
-    def bfs(self, searchKey):
-        q = Queues()
-        q.enQueues(self.root)
-        path = []
-        while q.isEmpty() == False:
-            u = q.deQueues()
-            path.append(u.getKey())
-            if u.getKey() == searchKey:
-                return path
-            else:
-                if u.hasLeft():
-                    q.enQueues(u.getLeft())
-                if u.hasRight():
-                    q.enQueues(u.getRight())
-        return None
-
     # perform the uniform cost search
     def ucs(self, searchKey):
-        q = Queues()
-        q.enQueues(self.root)
+        frontier = Queues()
+        frontier.enqueue(self.root)
         explored = []
-        while q.isEmpty() == False:
-            q.QueuesList.sort(key=lambda x: x.get_cost(), reverse=False)
-            u = q.deQueues()
+        while not frontier.isEmpty():
+            frontier.queueList.sort(key=lambda node: node.get_cost(), reverse=False)
+            u = frontier.dequeue()
             explored.append(u)
             if u.getKey() == searchKey:
                 return explored
@@ -136,12 +136,38 @@ class BinaryTree:
                     left = u.getLeft()
                     distance = self.f_n_block(u, left)
                     left.set_cost(distance+u.get_cost())
-                    q.enQueues(left)
+                    frontier.enqueue(left)
                 if u.hasRight():
                     right = u.getRight()
                     distance = self.f_n_block(u, right)
                     right.set_cost(distance + u.get_cost())
-                    q.enQueues(right)
+                    frontier.enqueue(right)
+        return None
+
+    # perform the greedy best first search
+    def gbfs(self, searchKey):
+        frontier = Queues()
+        frontier.enqueue(self.root)
+        destination = frontier.get_last_element()
+        explored = []
+        while not frontier.isEmpty():
+            frontier.queueList.sort(key=lambda node: node.get_cost(), reverse=False)
+            u = frontier.dequeue()
+            explored.append(u)
+            if u.getKey() == searchKey:
+                return explored
+            else:
+                if u.hasLeft():
+                    left = u.getLeft()
+                    distance = self.f_n_block(left, destination)
+                    left.set_cost(distance+left.get_cost())
+                    frontier.enqueue(left)
+                if u.hasRight():
+                    right = u.getRight()
+                    distance = self.f_n_block(right, destination)
+                    right.set_cost(distance + right.get_cost())
+
+                    frontier.enqueue(right)
         return None
 
     def backtrack(self, startNode, endNode):

@@ -1,5 +1,7 @@
 from __future__ import print_function
 
+__author__ = 'Biney Kingsley'
+
 '''
 This class implements basic data structure classes which is used to implemented the various search  algorithms
 '''
@@ -11,32 +13,27 @@ class Stacks:
     def __init__(self):
         self.stackList = []
 
+    def clear(self):
+        self.__init__()
+
     def push(self, data):
         self.stackList.append(data)
 
     def pop(self):
         if self.isEmpty():
-            print('')
             return
-
-        data = self.stackList.pop()
-        return data
+        return self.stackList.pop()
 
     def top(self):
         if self.isEmpty():
-            print('')
             return
-        topindex = len(self.stackList)-1
-        top = self.stackList[topindex]
-        return top
+        return self.stackList[-1]
 
     def isEmpty(self):
-        if len(self.stackList) == 0:
+        if self.size() == 0:
             return True
-        else:
-            return False
 
-    def getSize(self):
+    def size(self):
         return len(self.stackList)
 
 
@@ -44,33 +41,38 @@ class Stacks:
 class Queues:
 
     def __init__(self):
-        self.QueuesList = []
+        self.queueList = []
 
     def clear(self):
         self.__init__()
 
-    def enQueues(self, data):
-        self.QueuesList.append(data)
+    def enqueue(self, data):
+        self.queueList.append(data)
 
-    def deQueues(self):
-        data = self.QueuesList.pop(0)
-        return data
+    def get_last_element(self):
+        return self.queueList[-1]
+
+    def dequeue(self):
+        item = self.queueList[0]
+        self.queueList.remove(item)
+        return item
 
     def isEmpty(self):
-        if len(self.QueuesList) == 0:
+        if self.size() == 0:
             return True
-        else:
-            return False
 
     def showStructure(self):
-        for x in self.QueuesList:
+        for x in self.queueList:
             print(x, end='\t')
+
+    def size(self):
+        return len(self.queueList)
 
 
 # Node Class
 class Node:
 
-    def __init__(self, key, x, y):
+    def __init__(self, key=None, x_coord=None, y_coord=None):
         # Arguments:
             # key: goal state
             # x: x coordinates
@@ -82,35 +84,35 @@ class Node:
         self.stack = Stacks()
         self.key = key
         self.cost = 0
-        self.x = x
-        self.y = y
+        self.x = x_coord
+        self.y = y_coord
         self.parent = None
 
-    def set_x(self, x):
-        self.x = x
+    def set_x(self, x_coord=None):
+        self.x = x_coord
 
     def get_x(self):
         return self.x
 
-    def set_y(self, y):
-        self.y = y
+    def set_y(self, y_coord=None):
+        self.y = y_coord
 
     def get_y(self):
         return self.y
 
-    def set_cost(self, cost):
+    def set_cost(self, cost=None):
         self.cost = cost
 
     def get_cost(self):
         return self.cost
 
-    def setRight(self, Node):
+    def setRight(self, Node=None):
         self.right = Node
 
-    def setLeft(self, Node):
+    def setLeft(self, Node=None):
         self.left = Node
 
-    def setKey(self, Node):
+    def setKey(self, Node=None):
         self.key = Node
 
     def getRight(self):
@@ -138,7 +140,7 @@ class Node:
             status = False
         return status
 
-    def add_child(self, Node):
+    def add_child(self, Node=None):
         self.child.append(Node)
 
     def first_child(self):
@@ -152,7 +154,7 @@ class Node:
             state = True
         return state
 
-    def set_parent(self, Node):
+    def set_parent(self, Node=None):
         self.parent = Node
 
     def get_parent(self):
