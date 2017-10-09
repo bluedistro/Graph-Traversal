@@ -23,11 +23,6 @@ class Searcheron(QtGui.QDialog):
         # a figure instance to plot on
         self.figure = Figure()
 
-        # display error messagebox
-        self.errmsgbx = QtGui.QMessageBox()
-        self.errmsgbx.setIcon(QtGui.QMessageBox.Warning)
-        self.errmsgbx.setWindowTitle("Invalid Destination")
-
         # instantiate horixontal and vertical layout boxes
         self.hbox = QtGui.QHBoxLayout()
         self.disp_hbox = QtGui.QHBoxLayout()
@@ -47,14 +42,14 @@ class Searcheron(QtGui.QDialog):
         self.destination_label.setText('Destination:')
 
         # instantiate the combo boxes
+        self.select_map_combo = QtGui.QComboBox()
         self.algorithm_combo = QtGui.QComboBox()
         self.search_combo = QtGui.QComboBox()
-        self.select_map_combo = QtGui.QComboBox()
 
         # pre-populate the combo boxes
+        self.select_map_combo.addItems(["Original", "Extended"])
         self.algorithm_combo.addItems(["Uninformed", "Informed"])
         self.search_combo.addItems(["Depth First", "Breadth First", "Uniform Cost"])
-        self.select_map_combo.addItems(["Original", "Extended"])
 
         # change the search_combobox values based on change in algorithm_combobox
         self.algos = {'Uninformed': ["Depth First", "Breadth First", "Uniform Cost"], 'Informed':['Greedy Best First', 'A* Search']}
@@ -177,8 +172,9 @@ class Searcheron(QtGui.QDialog):
         self.setLayout(self.layout)
 
         # set program name and icon
+        window_icon = 'icons/icon.png'
         self.setWindowTitle('Searcheron-v1.0.1 (Powered by Matplotlib-v1.5.1)')
-        self.setWindowIcon(QtGui.QIcon('icon.png'))
+        self.setWindowIcon(QtGui.QIcon(window_icon))
 
 
 
@@ -291,24 +287,26 @@ class Searcheron(QtGui.QDialog):
         # refresh canvas
         self.canvas.draw()
 
+
 '''execute searcheron'''
+
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
 
     # show splash screen
-    splash_im = QtGui.QPixmap('sps.png')
-    splash = QtGui.QSplashScreen(QtGui.QPixmap("sps.png"), QtCore.Qt.WindowStaysOnTopHint)
+    splash_im = 'icons/sps.png'
+    splash = QtGui.QSplashScreen(QtGui.QPixmap(splash_im), QtCore.Qt.WindowStaysOnTopHint)
     progressbar = QtGui.QProgressBar(splash)
-    # splash.setMask(splash_im.mask())
     splash.show()
 
-    # progress bar
+    # progress bar engage user while program prepares to run
     for i in range(0, 100):
         progressbar.setValue(i)
         # cause a delay
         start = time.time()
-        while time.time() < start + 0.1:
-            # time.sleep(0.001)
+        while time.time() < start + 0.001:
+            if i == 50:
+                time.sleep(2)
             app.processEvents()
 
     main = Searcheron()

@@ -75,8 +75,8 @@ class Node:
     def __init__(self, key=None, x_coord=None, y_coord=None):
         # Arguments:
             # key: goal state
-            # x: x coordinates
-            # y: y coordinates
+            # x_coord: x coordinates
+            # y_coord: y coordinates
         self.child = []
         self.right = None
         self.left = None

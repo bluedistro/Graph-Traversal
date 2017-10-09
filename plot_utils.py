@@ -18,6 +18,8 @@ except ImportError:
     * ubs_plotter -> implements visualization of search algorithms
     * gen_plot -> mother algorithm housing the engine of the plotting technique
  '''
+
+
 class Plot_utils:
 
     def __init__(self, tree = None,  x_list = None, y_list = None, labels = None):
@@ -137,7 +139,6 @@ class Plot_utils:
 
             # grid the graph
             plt.grid()
-
             # compare labels in the optimized path list and main graph list and obtain corresponding
             #  xy coordinates from the main graph's x and y lists
             for j in range(len(opt_path_list)):

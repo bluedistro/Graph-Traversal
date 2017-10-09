@@ -92,7 +92,7 @@ class Search:
     # Implement Uninformed Blind Search Algorithms on console
     def console_target(self):
         print('Implemented algorithm codes: ucs, dfs, bfs')
-        map = raw_input('Select map type: enter "original" or "extended": ').lower()
+        map = raw_input('Map Selection: enter "original" or "extended": ').lower()
 
         # clear the canvas
         self.maps.reset()
