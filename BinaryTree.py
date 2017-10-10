@@ -1,5 +1,6 @@
 from __future__ import print_function
 from data_structs import Stacks, Queues
+import heapq
 import numpy as np
 
 __author__ = 'Kingsley Biney'
@@ -10,7 +11,7 @@ __author__ = 'Kingsley Biney'
 class BinaryTree:
     def __init__(self):
         self.root = None
-
+        self.heapq = heapq
     def displayPreOrder(self, node):
         if node == None:
             return
@@ -144,30 +145,22 @@ class BinaryTree:
                     frontier.enqueue(right)
         return None
 
-    # perform the greedy best first search
+    # perform the greedy best first search (for this algorithm, i used the heapq for auto sort)
+    # since the gbfs is just a sorted form of bfs
     def gbfs(self, searchKey):
-        frontier = Queues()
-        frontier.enqueue(self.root)
-        destination = frontier.get_last_element()
-        explored = []
-        while not frontier.isEmpty():
-            frontier.queueList.sort(key=lambda node: node.get_cost(), reverse=False)
-            u = frontier.dequeue()
-            explored.append(u)
+        heap = [] # our heap list to hold the root
+        self.heapq.heappush(heap, self.root)
+        path = []
+        while len(heap) != 0:
+            u = self.heapq.heappop(heap)
+            path.append(u.getKey())
             if u.getKey() == searchKey:
-                return explored
+                return path
             else:
                 if u.hasLeft():
-                    left = u.getLeft()
-                    distance = self.f_n_block(left, destination)
-                    left.set_cost(distance+left.get_cost())
-                    frontier.enqueue(left)
+                    self.heapq.heappush(heap, u.getLeft())
                 if u.hasRight():
-                    right = u.getRight()
-                    distance = self.f_n_block(right, destination)
-                    right.set_cost(distance + right.get_cost())
-
-                    frontier.enqueue(right)
+                    self.heapq.heappush(heap, u.getRight())
         return None
 
     def backtrack(self, startNode, endNode):

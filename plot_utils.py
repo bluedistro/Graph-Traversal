@@ -69,6 +69,9 @@ class Plot_utils:
         if algorithm == 'dfs':
             x_capa, y_capa, x_capitula, y_capitula, labella = self.gen_plot(path=path, algorithm='dfs')
             return  x_capa, y_capa, x_capitula, y_capitula, labella
+        if algorithm == 'gbfs':
+            x_capa, y_capa, x_capitula, y_capitula, labella = self.gen_plot(path=path, algorithm='dfs')
+            return  x_capa, y_capa, x_capitula, y_capitula, labella
 
     def gen_plot(self, path=None, algorithm=None):
 
@@ -87,7 +90,7 @@ class Plot_utils:
             # self.labels (string list): all the names of the nodes visited by algorithm in use
 
         # Breadth First Search and Depth First search use the same plotting technique
-        if algorithm == 'bfs' or algorithm == 'dfs':
+        if algorithm == 'bfs' or algorithm == 'dfs' or algorithm == 'gbfs':
 
             # plot a scatter diagram of all the nodes in the graph
             plt.scatter([self.x_list[x] for x in range(len(self.x_list))],

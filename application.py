@@ -86,12 +86,17 @@ class Search:
             numpath = len(path)
             x_capa, y_capa, x_capitula, y_capitula, labella = pltls.ubs_plotter(path=path, algorithm='bfs')
 
+        elif algorithm == 'gbfs':
+            path = self.tree.gbfs(goal)
+            numpath = len(path)
+            x_capa, y_capa, x_capitula, y_capitula, labella = pltls.ubs_plotter(path=path, algorithm='bfs')
+
         # return the necessary variables
         return numpath, x_capa, y_capa, x_capitula, y_capitula, labella
 
     # Implement Uninformed Blind Search Algorithms on console
     def console_target(self):
-        print('Implemented algorithm codes: ucs, dfs, bfs')
+        print('Implemented algorithm codes: ucs, dfs, bfs, gbfs')
         map = raw_input('Map Selection: enter "original" or "extended": ').lower()
 
         # clear the canvas
@@ -124,6 +129,13 @@ class Search:
             elif algorithm == 'dfs':
                 path = self.tree.dfs(goal)
                 num_path = len(path)
+                print('number of Nodes visited: {}'.format(num_path))
+                pltls.ubs_plotter(path=path, algorithm=algorithm)
+
+            elif algorithm == 'gbfs':
+                path = self.tree.gbfs(goal)
+                num_path = len(path)
+                print(path)
                 print('number of Nodes visited: {}'.format(num_path))
                 pltls.ubs_plotter(path=path, algorithm=algorithm)
 
