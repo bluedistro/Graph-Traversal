@@ -6,6 +6,7 @@ try:
     from BinaryTree import BinaryTree
     from plot_utils import Plot_utils as plutils
     from maps import Maps
+    from datetime import datetime
     from data_structs import Node
 except ImportError:
     msg = "Unable to import some packages"
@@ -45,6 +46,21 @@ class Search:
         self.x_list, self.y_list, self.labels, self.tree = self.maps.original_map()
         self.tree.displayPostOrder(self.tree.root)
 
+    # wrapper around the A* and Greedy Depth First Search method
+    def isa(self, searchKey=None, algorithm=None):
+        for i in range(len(self.labels)):
+            if searchKey == self.labels[i]:
+                x_coord_holder = self.x_list[i]
+                y_coord_holder = self.y_list[i]
+        # print('isa x: '  + str(x_coord_holder))
+        if algorithm == 'gbfs':
+            path = self.tree.gbfs(searchKey=searchKey, x=x_coord_holder, y=y_coord_holder)
+        elif algorithm == 'asts':
+            path = self.tree.asts(searchKey=searchKey, x=x_coord_holder, y=y_coord_holder)
+        return path
+
+
+
     # Implement Uninformed Blind Search Algorithms on GUI
     def gui_target(self, map=None, algorithm=None, goal=None):
 
@@ -73,30 +89,66 @@ class Search:
         pltls = plutils(tree=self.tree, x_list=self.x_list, y_list=self.y_list, labels=self.labels)
 
         if algorithm == 'ucs':
+            start = datetime.now().microsecond
             path = self.tree.ucs(goal)
+            stop = datetime.now().microsecond
+            time_taken = stop - start
+            print('Nodes Traversed in uniform cost: ', end='\t')
+            for i in range(len(path)):
+                print(path[i].getKey(), end='\t')
+            print('\n')
             numpath, x_capa, y_capa, x_capitula, y_capitula, labella = pltls.ubs_plotter(path=path, algorithm='ucs')
 
         elif algorithm == 'dfs':
+            start = datetime.now().microsecond
             path = self.tree.dfs(goal)
-            numpath = len(path)
-            x_capa, y_capa, x_capitula, y_capitula, labella = pltls.ubs_plotter(path=path, algorithm='dfs')
+            stop = datetime.now().microsecond
+            time_taken = stop - start
+            print('Nodes Traversed in depth first: ')
+            for i in range(len(path)):
+                print(path[i].getKey(), end='\t')
+            print('\n')
+            numpath, x_capa, y_capa, x_capitula, y_capitula, labella = pltls.ubs_plotter(path=path, algorithm='dfs')
 
         elif algorithm == 'bfs':
+            start = datetime.now().microsecond
             path = self.tree.bfs(goal)
-            numpath = len(path)
-            x_capa, y_capa, x_capitula, y_capitula, labella = pltls.ubs_plotter(path=path, algorithm='bfs')
+            stop = datetime.now().microsecond
+            time_taken = stop - start
+            print('Nodes Traversed in breadth first: ')
+            for i in range(len(path)):
+                print(path[i].getKey(), end='\t')
+            print('\n')
+            numpath, x_capa, y_capa, x_capitula, y_capitula, labella = pltls.ubs_plotter(path=path, algorithm='bfs')
 
         elif algorithm == 'gbfs':
-            path = self.tree.gbfs(goal)
-            numpath = len(path)
-            x_capa, y_capa, x_capitula, y_capitula, labella = pltls.ubs_plotter(path=path, algorithm='bfs')
+            start = datetime.now().microsecond
+            path = self.isa(searchKey=goal, algorithm=algorithm)
+            stop = datetime.now().microsecond
+            time_taken = stop - start
+            print('Nodes Traversed in greedy best first: ')
+            for i in range(len(path)):
+                print(path[i].getKey(), end='\t')
+            print('\n')
+            numpath, x_capa, y_capa, x_capitula, y_capitula, labella = pltls.ubs_plotter(path=path, algorithm='gbfs')
+
+        elif algorithm == 'asts':
+            start = datetime.now().microsecond
+            path = self.isa(searchKey=goal, algorithm=algorithm)
+            stop = datetime.now().microsecond
+            time_taken = stop - start
+            print('Nodes Traversed in a star best first: ')
+            for i in range(len(path)):
+                print(path[i].getKey(), end='\t')
+            print('\n')
+            numpath, x_capa, y_capa, x_capitula, y_capitula, labella = pltls.ubs_plotter(path=path, algorithm='asts')
 
         # return the necessary variables
-        return numpath, x_capa, y_capa, x_capitula, y_capitula, labella
+        return time_taken, numpath, x_capa, y_capa, x_capitula, y_capitula, labella
 
     # Implement Uninformed Blind Search Algorithms on console
     def console_target(self):
-        print('Implemented algorithm codes: ucs, dfs, bfs, gbfs')
+        print('Implemented algorithm codes: ucs, dfs, bfs, gbfs, asts')
         map = raw_input('Map Selection: enter "original" or "extended": ').lower()
 
         # clear the canvas
@@ -133,7 +185,14 @@ class Search:
                 pltls.ubs_plotter(path=path, algorithm=algorithm)
 
             elif algorithm == 'gbfs':
-                path = self.tree.gbfs(goal)
+                path = self.isa(searchKey=goal, algorithm=algorithm)
+                num_path = len(path)
+                print(path)
+                print('number of Nodes visited: {}'.format(num_path))
+                pltls.ubs_plotter(path=path, algorithm=algorithm)
+
+            elif algorithm == 'asts':
+                path = self.isa(searchKey=goal, algorithm=algorithm)
                 num_path = len(path)
                 print(path)
                 print('number of Nodes visited: {}'.format(num_path))

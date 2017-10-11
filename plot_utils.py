@@ -1,6 +1,6 @@
 # NOTE: TO RUN IN CONSOLE MODE, UNCOMMENT THE self.reset() AND plt.show() INSTANCES IN THE gen_plot() METHOD
 # AND OTHERWISE WHEN RUNNING IN GUI MODE
-
+from __future__ import print_function
 __author__ = 'Kingsley Biney'
 
 # NB: To use this class, your tree class should implement the backtrack method
@@ -64,14 +64,17 @@ class Plot_utils:
             opt_len, x_capa, y_capa, x_capitula, y_capitula, labella = self.gen_plot(path=path, algorithm='ucs')
             return opt_len, x_capa, y_capa, x_capitula, y_capitula, labella
         if algorithm == 'bfs':
-            x_capa, y_capa, x_capitula, y_capitula, labella  = self.gen_plot(path=path, algorithm='bfs')
-            return x_capa, y_capa, x_capitula, y_capitula, labella
+            opt_len, x_capa, y_capa, x_capitula, y_capitula, labella  = self.gen_plot(path=path, algorithm='bfs')
+            return opt_len, x_capa, y_capa, x_capitula, y_capitula, labella
         if algorithm == 'dfs':
-            x_capa, y_capa, x_capitula, y_capitula, labella = self.gen_plot(path=path, algorithm='dfs')
-            return  x_capa, y_capa, x_capitula, y_capitula, labella
+            opt_len, x_capa, y_capa, x_capitula, y_capitula, labella = self.gen_plot(path=path, algorithm='dfs')
+            return  opt_len, x_capa, y_capa, x_capitula, y_capitula, labella
         if algorithm == 'gbfs':
-            x_capa, y_capa, x_capitula, y_capitula, labella = self.gen_plot(path=path, algorithm='dfs')
-            return  x_capa, y_capa, x_capitula, y_capitula, labella
+            opt_len, x_capa, y_capa, x_capitula, y_capitula, labella = self.gen_plot(path=path, algorithm='gbfs')
+            return  opt_len, x_capa, y_capa, x_capitula, y_capitula, labella
+        if algorithm == 'asts':
+            opt_len, x_capa, y_capa, x_capitula, y_capitula, labella = self.gen_plot(path=path, algorithm='asts')
+            return  opt_len, x_capa, y_capa, x_capitula, y_capitula, labella
 
     def gen_plot(self, path=None, algorithm=None):
 
@@ -90,48 +93,62 @@ class Plot_utils:
             # self.labels (string list): all the names of the nodes visited by algorithm in use
 
         # Breadth First Search and Depth First search use the same plotting technique
-        if algorithm == 'bfs' or algorithm == 'dfs' or algorithm == 'gbfs':
-
-            # plot a scatter diagram of all the nodes in the graph
-            plt.scatter([self.x_list[x] for x in range(len(self.x_list))],
-                        [self.y_list[y] for y in range(len(self.y_list))],
-                        marker='o', cmap=plt.get_cmap('Spectral'))
-
-            # indicate respective labels on each node
-            for label, x, y in zip(self.labels, self.x_list, self.y_list):
-                plt.annotate(label, xy=(x, y))
-
-            # grid the graph
-            plt.grid()
-
-            # compare labels in the algorithm's return graph list and main graph list and obtain corresponding
-            #  xy coordinates from the main graph's x and y lists
-            for j in range(len(path)):
-                for i in range(len(self.labels)):
-                    if self.labels[i] == path[j]:
-                        self.path_list_x.append(self.x_list[i])
-                        self.path_list_y.append(self.y_list[i])
-                        self.path_key_list.append(self.labels[i])
-
-            # plot the obtained xy lists obtained from the main graph
-            plt.plot([self.path_list_x[x] for x in range(len(self.path_list_x))],
-                     [self.path_list_y[y] for y in range(len(self.path_list_y))])
-
-            '''uncomment when running in console mode and comment when running in gui mode'''
-            # plt.show()
-            # self.reset()
-            return  self.x_list, self.y_list, self.path_list_x, self.path_list_y, self.labels
+        # if algorithm == 'dfs':
+        #
+        #     # plot a scatter diagram of all the nodes in the graph
+        #     plt.scatter([self.x_list[x] for x in range(len(self.x_list))],
+        #                 [self.y_list[y] for y in range(len(self.y_list))],
+        #                 marker='o', cmap=plt.get_cmap('Spectral'))
+        #
+        #     # indicate respective labels on each node
+        #     for label, x, y in zip(self.labels, self.x_list, self.y_list):
+        #         plt.annotate(label, xy=(x, y))
+        #
+        #     # grid the graph
+        #     plt.grid()
+        #
+        #     # compare labels in the algorithm's return graph list and main graph list and obtain corresponding
+        #     #  xy coordinates from the main graph's x and y lists
+        #     print(path)
+        #     for j in range(len(path)):
+        #         for i in range(len(self.labels)):
+        #             if self.labels[i] == path[j]:
+        #                 self.path_list_x.append(self.x_list[i])
+        #                 self.path_list_y.append(self.y_list[i])
+        #                 self.path_key_list.append(self.labels[i])
+        #
+        #     # plot the obtained xy lists obtained from the main graph
+        #     plt.plot([self.path_list_x[x] for x in range(len(self.path_list_x))],
+        #              [self.path_list_y[y] for y in range(len(self.path_list_y))])
+        #
+        #     '''uncomment when running in console mode and comment when running in gui mode'''
+        #     # plt.show()
+        #     # self.reset()
+        #     return  self.x_list, self.y_list, self.path_list_x, self.path_list_y, self.labels
 
         # Uniform Cost search uses a different plotting technique due to presence of backtrack
-        elif algorithm == 'ucs':
+        if algorithm == 'ucs'  or  algorithm == 'bfs' or algorithm == 'dfs' or algorithm == 'gbfs' or algorithm == 'asts':
+
+            # TODO: DEBUGGING PURPOSED FOR LOOP
+
+
             opt_path_list = []
             optimized_path = self.tree.backtrack(path[0], path[-1])
-
+            # print(path[0].getKey() ,  path[-1].getKey())
             # get the actual values of the nodes in the optimized path and append to opt_path_list
             for i in range(len(optimized_path)):
                 opt_path_list.append(optimized_path[i].getKey())
 
+            # print('Nodes traversed: ', end='\t')
+            # print(path[i].getKey() for i in range(len(path)))
+
+            # TODO: DEBUGGING PURPOSED FOR LOOP
+            # print('\nOprimized path traversed: ', end='\t')
+            # for i in range(len(opt_path_list)):
+            #     print(opt_path_list[i], end='\t')
+
             # plot a scatter diagram of all the nodes in the graph
+            # print([opt_path_list[x] for x in range(len(opt_path_list))])
             plt.scatter([self.x_list[x] for x in range(len(self.x_list))],
                         [self.y_list[y] for y in range(len(self.y_list))],
                         marker='s', cmap=plt.get_cmap('Spectral'))
@@ -142,6 +159,7 @@ class Plot_utils:
 
             # grid the graph
             plt.grid()
+
             # compare labels in the optimized path list and main graph list and obtain corresponding
             #  xy coordinates from the main graph's x and y lists
             for j in range(len(opt_path_list)):
@@ -156,10 +174,10 @@ class Plot_utils:
                      [self.path_list_y[y] for y in range(len(self.path_list_y))])
 
             # save the number of nodes traversed from the initial state to the goal state
-            opt_len = len(opt_path_list)
+            numpath = len(path)
 
             '''uncomment when running in console mode and comment when running in gui mode'''
             # plt.show()
             # self.reset()
 
-            return opt_len, self.x_list, self.y_list, self.path_list_x, self.path_list_y, self.labels
+            return numpath, self.x_list, self.y_list, self.path_list_x, self.path_list_y, self.labels

@@ -1,5 +1,5 @@
+from __future__ import print_function
 import sys, time
-import numpy as np
 from PyQt4 import QtGui, QtCore
 from application import Search
 from matplotlib.figure import Figure
@@ -207,21 +207,21 @@ class Searcheron(QtGui.QDialog):
         map = str(self.select_map_combo.currentText()).lower() # get selected map
         ubs_word = str(self.search_combo.currentText()) # name of the actual uninformed algorithm
         end = str(self.destination_input.text()) # name of goal
-        dummy_runtime = np.random.randint(5,12) # represent with random numbers for now
-
         # get the algorithm's code
         algo = self.get_algo(algorithm=ubs_word)
 
         # call the graphing function
-        numpath, x_capa, y_capa, x_capitula, y_capitula, labella = self.search.gui_target(map=map,
+        time_taken, numpath, x_capa, y_capa, x_capitula, y_capitula, labella = self.search.gui_target(map=map,
                                                                                           algorithm=algo,
                                                                                           goal=end)
+
+        # float_time_taken = ("%.2f" % (time_taken))
         # set the items to be displayed at the bottom of the page
         self.disp_algorithm.setText('Algorithm: {}'.format(ubs_word))
         self.disp_start.setText('Start: Accra')
         self.disp_end.setText('End: {}'.format(end))
         self.disp_nodes_visited.setText('Nodes Visited: {}'.format(str(numpath)))
-        self.disp_runtime.setText('Runtime: {}ms'.format(str(dummy_runtime)))
+        self.disp_runtime.setText('Runtime: {}ms'.format(str(time_taken)))
 
         # make an initial full subplot
         self.plt = self.figure.add_subplot(111)
@@ -238,6 +238,35 @@ class Searcheron(QtGui.QDialog):
         for label, x, y in zip(labella, x_capa, y_capa):
             self.plt.annotate(label, xy=(x, y))
 
+        # plot roads
+        if map == 'original':
+            self.plt.plot([0, 40], [200, 120], color='yellow')
+            self.plt.plot([0, 80], [200, 180], color='yellow')
+            self.plt.plot([80, 100], [180, 160], color='yellow')
+            self.plt.plot([80, 100], [120, 80], color='yellow')
+            self.plt.plot([80, 80], [180, 120], color='yellow')
+            self.plt.plot([80, 60], [120, 80], color='yellow')
+            self.plt.plot([100, 140], [160, 140], color='yellow')
+            self.plt.plot([100, 140], [160, 180], color='yellow')
+        elif map == 'extended':
+            self.plt.plot([0, 40], [200, 120], color='yellow')
+            self.plt.plot([0, 80], [200, 180], color='yellow')
+            self.plt.plot([80, 100], [180, 160], color='yellow')
+            self.plt.plot([80, 100], [120, 80], color='yellow')
+            self.plt.plot([80, 80], [180, 120], color='yellow')
+            self.plt.plot([80, 60], [120, 80], color='yellow')
+            self.plt.plot([100, 140], [160, 140], color='yellow')
+            self.plt.plot([100, 140], [160, 180], color='yellow')
+            self.plt.plot([60, 20], [80, 40], color='yellow')
+            self.plt.plot([20, 60], [40, 20], color='yellow')
+            self.plt.plot([100, 160], [80, 80], color='yellow')
+            self.plt.plot([100, 100], [80, 40], color='yellow')
+            self.plt.plot([100, 120], [40, 20], color='yellow')
+            self.plt.plot([140, 180], [180, 200], color='yellow')
+            self.plt.plot([180, 200], [200, 160], color='yellow')
+            self.plt.plot([200, 180], [160, 100], color='yellow')
+            self.plt.plot([200, 200], [160, 40], color='yellow')
+
         # plot the actual path returned by the search algorithm
         self.plt.plot([x_capitula[x] for x in range(len(x_capitula))],
                  [y_capitula[y] for y in range(len(y_capitula))])
@@ -252,7 +281,8 @@ class Searcheron(QtGui.QDialog):
     def default_plot(self):
 
         # call the graphing function
-        numpath, x_capa, y_capa, x_capitula, y_capitula, labella = self.search.gui_target(map='original',
+        print('DEFAULT PAGE RESULTS: ')
+        time_taken, numpath, x_capa, y_capa, x_capitula, y_capitula, labella = self.search.gui_target(map='original',
                                                                                           algorithm='ucs',
                                                                                               goal='Accra')
         # set the items to be displayed at the bottom of the page
@@ -277,9 +307,15 @@ class Searcheron(QtGui.QDialog):
         for label, x, y in zip(labella, x_capa, y_capa):
             self.plt.annotate(label, xy=(x, y))
 
-        # plot the actual path returned by the search algorithm
-        self.plt.plot([x_capitula[x] for x in range(len(x_capitula))],
-                          [y_capitula[y] for y in range(len(y_capitula))])
+        # show roads on the default graph
+        self.plt.plot([0, 40], [200, 120], color='yellow')
+        self.plt.plot([0, 80], [200, 180], color='yellow')
+        self.plt.plot([80, 100], [180, 160], color='yellow')
+        self.plt.plot([80, 100], [120, 80], color='yellow')
+        self.plt.plot([80, 80], [180, 120], color='yellow')
+        self.plt.plot([80, 60], [120, 80], color='yellow')
+        self.plt.plot([100, 140], [160, 140], color='yellow')
+        self.plt.plot([100, 140], [160, 180], color='yellow')
 
         # activate graph grid
         self.plt.grid()
