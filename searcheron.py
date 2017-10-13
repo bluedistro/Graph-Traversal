@@ -328,8 +328,8 @@ class Searcheron(QtGui.QDialog):
 '''execute searcheron'''
 
 if __name__ == '__main__':
-    __python_version__ = (2, 7, 12)
-    if not sys.version_info[:3] == __python_version__:
+    __python_version__ = (2, 7)
+    if not sys.version_info[:2] == __python_version__:
         print("This program requires Python 2.7.12 and PyQt4 to run")
     else:
         app = QtGui.QApplication(sys.argv)
