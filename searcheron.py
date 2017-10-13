@@ -8,8 +8,6 @@ from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as Navigatio
 
 __author__ = 'Biney Kingsley'
 
-# TODO: PROGRAM THE RUNTIME
-
 
 class Searcheron(QtGui.QDialog):
 
@@ -60,7 +58,7 @@ class Searcheron(QtGui.QDialog):
 
         # instantiate the textbox
         self.destination_input = QtGui.QLineEdit()
-        self.destination_input.setPlaceholderText('enter available dest.')
+        self.destination_input.setPlaceholderText('hover to see dests.')
 
         # set tooltips
         self.algorithm_combo.setToolTip('Select category of search algorithm')

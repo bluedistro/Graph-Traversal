@@ -198,7 +198,6 @@ class Search:
                 print('number of Nodes visited: {}'.format(num_path))
                 pltls.ubs_plotter(path=path, algorithm=algorithm)
 
-            # TODO: FIX LITTLE TECHNICAL GLITCHES IN THESE ALGORITHM
             # elif algorithm == 'disno':
             #     self.dis_in_order()
             #
