@@ -1,10 +1,13 @@
 from __future__ import print_function
 import sys, time
-from PyQt4 import QtGui, QtCore
-from application import Search
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
+try:
+    from PyQt4 import QtGui, QtCore
+    from application import Search
+    from matplotlib.figure import Figure
+    from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
+    from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
+except ImportError as e:
+    print(str(e))
 
 __author__ = 'Biney Kingsley'
 
@@ -325,25 +328,28 @@ class Searcheron(QtGui.QDialog):
 '''execute searcheron'''
 
 if __name__ == '__main__':
-    app = QtGui.QApplication(sys.argv)
+    __python_version__ = (2, 7, 12)
+    if not sys.version_info[:3] == __python_version__:
+        print("This program requires Python 2.7.12 and PyQt4 to run")
+    else:
+        app = QtGui.QApplication(sys.argv)
+        # show splash screen
+        splash_im = 'icons/sps.png'
+        splash = QtGui.QSplashScreen(QtGui.QPixmap(splash_im), QtCore.Qt.WindowStaysOnTopHint)
+        progressbar = QtGui.QProgressBar(splash)
+        splash.show()
 
-    # show splash screen
-    splash_im = 'icons/sps.png'
-    splash = QtGui.QSplashScreen(QtGui.QPixmap(splash_im), QtCore.Qt.WindowStaysOnTopHint)
-    progressbar = QtGui.QProgressBar(splash)
-    splash.show()
+        # progress bar engage user while program prepares to run
+        for i in range(0, 100):
+            progressbar.setValue(i)
+            # cause a delay
+            start = time.time()
+            while time.time() < start + 0.001:
+                if i == 50:
+                    time.sleep(2)
+                app.processEvents()
 
-    # progress bar engage user while program prepares to run
-    for i in range(0, 100):
-        progressbar.setValue(i)
-        # cause a delay
-        start = time.time()
-        while time.time() < start + 0.001:
-            if i == 50:
-                time.sleep(2)
-            app.processEvents()
-
-    main = Searcheron()
-    main.show()
-    splash.finish(main)
-    sys.exit(app.exec_())
+        main = Searcheron()
+        main.show()
+        splash.finish(main)
+        sys.exit(app.exec_())
