@@ -1,4 +1,4 @@
-## Searcheron ![Searcheron Logo](icons/icon.png=100x20)
+## Searcheron ![Searcheron Logo](icons/icon.png =10x20)
 **A practical demonstration of graph traversals using sample cities in Ghana as use cases**.
 Informed Searching Algorithms implemented include:
 * Depth First Search
