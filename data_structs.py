@@ -87,10 +87,12 @@ class PriorityQueue:
 class Node:
 
     def __init__(self, key=None, x_coord=None, y_coord=None):
-        # Arguments:
-            # key: goal state
-            # x_coord: x coordinates
-            # y_coord: y coordinates
+        '''
+         Arguments:
+            key: goal state
+            x_coord: x coordinates
+            y_coord: y coordinates
+        '''
         self.child = []
         self.right = None
         self.left = None

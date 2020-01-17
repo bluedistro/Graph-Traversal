@@ -64,17 +64,19 @@ class Search:
     # Implement Uninformed Blind Search Algorithms on GUI
     def gui_target(self, map=None, algorithm=None, goal=None):
 
-        # Arguments:
-            # algorithm (string): the search algorithm code to be used
-            # goal (string): the city (Node) being searched for (goal state)
+        '''
+        Arguments:
+            algorithm (string): the search algorithm code to be used
+            goal (string): the city (Node) being searched for (goal state)
 
-        # Returns:
-            # numpath (int): the number of Nodes visited by the algorithm in use
-            # x_capa (int list): all the x coordinates of the Nodes in the tree
-            # y_capa (int list): all the y coordinates of the Nodes in the tree
-            # x_capitula (int list): all the x coordinates of the Nodes visited by algorithm in use
-            # y_capitula (int list): all the y coordinates of the Nodes visited by algorithm in use
-            # labella (string list): all the names of the Nodes visited by algorithm in use
+        Returns:
+            numpath (int): the number of Nodes visited by the algorithm in use
+            x_capa (int list): all the x coordinates of the Nodes in the tree
+            y_capa (int list): all the y coordinates of the Nodes in the tree
+            x_capitula (int list): all the x coordinates of the Nodes visited by algorithm in use
+            y_capitula (int list): all the y coordinates of the Nodes visited by algorithm in use
+            labella (string list): all the names of the Nodes visited by algorithm in use
+        '''
 
         # clear the canvas
         self.maps.reset()
@@ -161,7 +163,7 @@ class Search:
             self.x_list, self.y_list, self.labels, self.tree = self.maps.extended_map()
 
         # instantiate the plutils class
-        pltls = plutils(tree=self.tree, x_list=self.x_list, y_list=self.y_list, labels=self.labels)
+        pltls = plutils(tree=self.tree, x_list=self.x_list, y_list=self.y_list, labels=self.labels, consoleMode=True)
 
         while True:
             goal = raw_input('Enter the name of the city: ')
@@ -197,15 +199,6 @@ class Search:
                 print(path)
                 print('number of Nodes visited: {}'.format(num_path))
                 pltls.ubs_plotter(path=path, algorithm=algorithm)
-
-            # elif algorithm == 'disno':
-            #     self.dis_in_order()
-            #
-            # elif algorithm == 'dpreo':
-            #     self.dis_pre_order()
-            #
-            # elif algorithm == 'dposo':
-            #     self.dis_post_order()
 
             else:
                 raise 'Invalid argument entered'

@@ -11,19 +11,14 @@ except ImportError as e:
 
 __author__ = 'Biney Kingsley'
 
-
 class Searcheron(QtGui.QDialog):
-
-    # design UI
     def __init__(self, parent=None):
         super(Searcheron, self).__init__(parent)
 
         # instantiate the search class
         self.search = Search()
-
         # a figure instance to plot on
         self.figure = Figure()
-
         # instantiate horixontal and vertical layout boxes
         self.hbox = QtGui.QHBoxLayout()
         self.disp_hbox = QtGui.QHBoxLayout()
@@ -69,15 +64,13 @@ class Searcheron(QtGui.QDialog):
         self.search_btn.setToolTip('Search for Goal')
 
         # set locations for original map
-        self.orig_dest = ['Accra', 'Tema', 'Achimota', 'Kasoa', ' Mamprobi', 'Dansoman','Kaneshie',
+        self.orig_dest = ['Accra', 'Tema', 'Achimota', 'Kasoa', 'Mamprobi', 'Dansoman','Kaneshie',
                           'Boduase', 'Mankessim']
 
         # set locations for extended map
-        self.ext_dest = ['Accra', 'Tema', 'Achimota', 'Kasoa',' Mamprobi', 'Dansoman', 'Kaneshie',
+        self.ext_dest = ['Accra', 'Tema', 'Achimota', 'Kasoa','Mamprobi', 'Dansoman', 'Kaneshie',
                          'Boduase', 'Mankessim', 'Korle Gono', 'James Town', 'Russia', 'Bubuashie',
-                         'Tesano', 'Kakum', 'Elmina', 'Cape Coast', 'Takoradi']
-
-        # set tooltip to aid destination determination in destination_input field
+                         'Tesano', 'Kakum', 'Elmina', 'Cape Coast', 'Takoradi']        
 
         # just to preset tooltips before map combo box is engaged, not that really important
         self.destination_input.setToolTip('MAP LOCATIONS \n\b {}'.format("\n".join(self.orig_dest)))
@@ -100,23 +93,23 @@ class Searcheron(QtGui.QDialog):
         self.disp_algorithm = QtGui.QLabel()
         self.disp_algorithm.setText('Algorithm: None')
         self.disp_algorithm.setFont(font)
-        self.disp_algorithm.setStyleSheet('color: blue')
+        self.disp_algorithm.setStyleSheet('color: white')
         self.disp_start = QtGui.QLabel()
         self.disp_start.setText('Start: None')
         self.disp_start.setFont(font)
-        self.disp_start.setStyleSheet('color: blue')
+        self.disp_start.setStyleSheet('color: white')
         self.disp_end = QtGui.QLabel()
         self.disp_end.setText('End: None')
         self.disp_end.setFont(font)
-        self.disp_end.setStyleSheet('color: blue')
+        self.disp_end.setStyleSheet('color: white')
         self.disp_nodes_visited = QtGui.QLabel()
         self.disp_nodes_visited.setText('Nodes Visited: None')
         self.disp_nodes_visited.setFont(font)
-        self.disp_nodes_visited.setStyleSheet('color: blue')
+        self.disp_nodes_visited.setStyleSheet('color: white')
         self.disp_runtime = QtGui.QLabel()
         self.disp_runtime.setText('Runtime: None')
         self.disp_runtime.setFont(font)
-        self.disp_runtime.setStyleSheet('color: blue')
+        self.disp_runtime.setStyleSheet('color: white')
 
 
         # add widgets to the top horizontal box layout
@@ -177,10 +170,7 @@ class Searcheron(QtGui.QDialog):
         self.setWindowTitle('Searcheron-v1.0.1 (Powered by Matplotlib-v1.5.1)')
         self.setWindowIcon(QtGui.QIcon(window_icon))
 
-
-
-
-        '''GUI Support Methods'''
+    '''GUI Support Methods'''
     # switch the items in algorithm combobox based on the category of search selected
     def switch_algo(self, text):
         items = self.algos[str(text)]
@@ -198,9 +188,9 @@ class Searcheron(QtGui.QDialog):
     def get_algo(self, algorithm=None):
         algorithm_dict = {'Depth First':'dfs', 'Breadth First':'bfs', 'Uniform Cost':'ucs',
                           'Greedy Best First': 'gbfs', 'A* Search': 'asts'}
-        for i in range(len(algorithm_dict)):
-            if algorithm == algorithm_dict.keys()[i]:
-                algo = algorithm_dict.values()[i]
+        for index, value in enumerate(algorithm_dict):
+            if algorithm == algorithm_dict.keys()[index]:
+                algo = algorithm_dict.values()[index]
         return algo
 
     # algorithm to plot on canvas
@@ -215,8 +205,6 @@ class Searcheron(QtGui.QDialog):
         time_taken, numpath, x_capa, y_capa, x_capitula, y_capitula, labella = self.search.gui_target(map=map,
                                                                                           algorithm=algo,
                                                                                           goal=end)
-
-        # float_time_taken = ("%.2f" % (time_taken))
         # set the items to be displayed at the bottom of the page
         self.disp_algorithm.setText('Algorithm: {}'.format(ubs_word))
         self.disp_start.setText('Start: Accra')

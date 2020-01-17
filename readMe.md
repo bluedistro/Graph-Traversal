@@ -53,7 +53,7 @@ This Program has two run modes:
 ### How  to run the GUI mode
 To run the GUI part of the program, run the *searcheron.py* file.
 ### Simple instructions for running in console mode
-To run the console part of the program, run the *console_test.py* file after uncommenting lines 180 and 181 in *plot_utils.py*.
+To run the console part of the program, run the *console_test.py* file
 
 ### Requirements
 * Python 2.7 - Code was only tested in Python2.7. I cannot confirm if it run in other Python Versions or not.

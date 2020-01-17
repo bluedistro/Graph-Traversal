@@ -58,7 +58,6 @@ class BinaryTree:
             self.displayInOrder(node.getRight())
         return holder
 
-
     def insert(self,parentKey, node, direction):
         if self.root == None:
             self.root = node
@@ -66,7 +65,6 @@ class BinaryTree:
             self.found = None
             self.searchPreOrder(self.root, parentKey)
             if self.found == None:
-                # print('The parent key was not found')
                 return
             elif direction == 'LEFT':
                 node.set_parent(self.found)
@@ -80,11 +78,9 @@ class BinaryTree:
         frontier = Stacks()
         frontier.push(self.root)
         path =[]
-        # print('Traversed Nodes in depth first search: ', end='\t')
         while not frontier.isEmpty():
             u = frontier.pop()
             path.append(u)
-            # print(u.getKey(), end='\t')
             if u.getKey() != search_key:
                 if u.hasRight():
                    frontier.push(u.getRight())
@@ -100,11 +96,9 @@ class BinaryTree:
         frontier = Queues()
         frontier.enqueue(self.root)
         path = []
-        # print('Traversed Nodes in breadth first: ', end='\t')
         while not frontier.isEmpty():
             u = frontier.dequeue()
             path.append(u)
-            # print(u.getKey(), end='\t')
             if u.getKey() == search_key:
                 return path
             else:
@@ -151,12 +145,10 @@ class BinaryTree:
         frontier = Queues()
         frontier.enqueue(self.root)
         explored = []
-        # print('Traversed Nodes in uniform cost: ', end='\t')
         while not frontier.isEmpty():
             frontier.queueList.sort(key=lambda node: node.get_cost(), reverse=False)
             u = frontier.dequeue()
             explored.append(u)
-            # print(u.getKey(), end='\t')
             if u.getKey() == search_key:
                 return explored
             else:
@@ -173,29 +165,24 @@ class BinaryTree:
         return None
 
     # perform the greedy best first search (for this algorithm, i used the heapq for auto sort)
-    # since the gbfs is just a sorted form of bfs
     def gbfs(self, searchKey=None, x=None, y=None):
         searchqueue = Queues()
         searchqueue.enqueue(self.root)
         path = []
-        # print('Traversed Nodes in greedy best: ', end='\t')
         while len(searchqueue.queueList) != 0:
             searchqueue.queueList.sort(key=lambda x:x.get_cost(), reverse=False)
             dequeuednode = searchqueue.dequeue()
             path.append(dequeuednode)
-            # print(dequeuednode.getKey(), end='\t')
             if dequeuednode.getKey() == searchKey:
                 return path
             else:
                 child = dequeuednode.getLeft()
                 if child != None:
-                    # print('gbfs c_left: ' + str(child.get_x()))
                     distance = (abs((child.get_x() - x)) ^ 2 + abs((child.get_y() - y)) ^ 2)** 0.5
                     child.set_cost(distance)
                     searchqueue.enqueue(child)
                 child = dequeuednode.getRight()
                 if child != None:
-                    # print('gbfs c_right: ' + str(child.get_x()))
                     distance = (abs((child.get_x() - x)) ^ 2 + abs((child.get_y() - y)) ^ 2)** 0.5
                     child.set_cost(distance)
                     searchqueue.enqueue(child)
@@ -206,18 +193,15 @@ class BinaryTree:
         searchqueue = Queues()
         searchqueue.enqueue(self.root)
         path = []
-        # print('Traversed Nodes in greedy best: ', end='\t')
         while len(searchqueue.queueList) != 0:
             searchqueue.queueList.sort(key=lambda x:x.get_cost(), reverse=False)
             dequeuednode = searchqueue.dequeue()
             path.append(dequeuednode)
-            # print(dequeuednode.getKey(), end='\t')
             if dequeuednode.getKey() == searchKey:
                 return path
             else:
                 child = dequeuednode.getLeft()
                 if child != None:
-                    # print('gbfs c_left: ' + str(child.get_x()))
                     h_n = (abs((child.get_x() - x)) ^ 2 + abs((child.get_y() - y)) ^ 2)** 0.5
                     g_n = self.f_n_block(dequeuednode, child)
                     f_n = g_n + h_n
@@ -225,7 +209,6 @@ class BinaryTree:
                     searchqueue.enqueue(child)
                 child = dequeuednode.getRight()
                 if child != None:
-                    # print('gbfs c_right: ' + str(child.get_x()))
                     h_n = (abs((child.get_x() - x)) ^ 2 + abs((child.get_y() - y)) ^ 2)** 0.5
                     g_n = self.f_n_block(dequeuednode, child)
                     f_n = g_n + h_n
