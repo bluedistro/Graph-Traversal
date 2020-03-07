@@ -1,13 +1,13 @@
 ## ![Searcheron Logo](icons/logo.png) Searcheron
 **A practical demonstration of graph traversals using sample cities in Ghana as use cases**.
 Informed Searching Algorithms implemented include:
-* Depth First Search
-* Breadth First Search
-* Uniform Cost Search
+* Depth First Search (DFS)
+* Breadth First Search (BFS)
+* Uniform Cost Search (UCS)
 
 Uninformed Searching Algorithms implemented also include:
-* Greedy Best First Search
-* A* Searching Algorithm
+* Greedy Best First Search (GBFS)
+* A* Searching Algorithm (A*A)
 
 #### Maps to be traversed are in two sections:
 1. A less populated (simple) map
