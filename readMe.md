@@ -74,5 +74,3 @@ To run the console part of the program, run the *console_test.py* file
 
 ##### Traversing the Map from the initial city (Accra) to Kakum using Depth First Search on the Complex Map. (On the console beneath the GUI is a list of cities traversed)
 ![Accra using Depth First Search](shots/extended_1_depth_traversal.png)
-
-
