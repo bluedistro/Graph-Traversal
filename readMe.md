@@ -1,5 +1,5 @@
 ## ![Searcheron Logo](icons/logo.png) Searcheron
-**A practical demonstration of graph traversals using sample cities in Ghana as use cases**.
+**A practical demonstration of graph traversals using cities in Ghana as examples**.
 Informed Searching Algorithms implemented include:
 * Depth First Search (DFS)
 * Breadth First Search (BFS)
