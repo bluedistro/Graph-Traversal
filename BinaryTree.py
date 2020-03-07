@@ -3,8 +3,6 @@ from data_structs import Stacks, Queues, PriorityQueue
 import heapq
 import numpy as np
 
-__author__ = 'Kingsley Biney'
-
 '''This class implements the informed and uninformed search algorithms being visualized on graph'''
 
 
